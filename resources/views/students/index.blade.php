@@ -1,0 +1,63 @@
+@extends('layouts.app')
+
+@section('content')
+<section class="card">
+    <div class="toolbar">
+        <div>
+            <h1>Students</h1>
+            <span class="muted">{{ $students->total() }} {{ Str::plural('record', $students->total()) }}</span>
+        </div>
+        <a class="button" href="/students/create">+ Add student</a>
+    </div>
+
+    <form class="actions search" method="get" action="/students">
+        <input aria-label="Search students" name="search" value="{{ $search }}" placeholder="Search name, number, email or course">
+        <button>Search</button>
+        @if($search)
+            <a href="/students">Clear</a>
+        @endif
+    </form>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Number</th>
+                    <th>Course</th>
+                    <th>Year</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($students as $student)
+                    <tr>
+                        <td>
+                            <strong>{{ $student->first_name }} {{ $student->last_name }}</strong><br>
+                            <span class="muted">{{ $student->email }}</span>
+                        </td>
+                        <td>{{ $student->student_number }}</td>
+                        <td>{{ $student->course }}</td>
+                        <td>{{ $student->year_level }}</td>
+                        <td>
+                            <div class="actions">
+                                <a href="/students/{{ $student->id }}">View</a>
+                                <a href="/students/{{ $student->id }}/edit">Edit</a>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="empty">
+                            <h2>{{ $search ? 'No matching students' : 'Your student directory starts here' }}</h2>
+                            <p class="muted">{{ $search ? 'Try another search.' : 'Add your first student to begin managing records.' }}</p>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    {{ $students->links() }}
+</section>
+@endsection
