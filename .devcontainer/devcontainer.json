@@ -1,0 +1,13 @@
+{
+        "name": "Student Management - PHP 8.3",
+        "build": { "dockerfile": "Dockerfile" },
+        "remoteUser": "vscode",
+        "forwardPorts": [8000],
+        "portsAttributes": {
+        "8000": {
+        "label": "Student Management",
+        "onAutoForward": "notify",
+        "protocol": "http"
+        }
+    }
+}
